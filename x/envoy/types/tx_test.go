@@ -84,9 +84,18 @@ func TestValidateBasic(t *testing.T) {
 			false,
 		},
 		{
-			"MsgSendMessages - success",
+			"MsgSendMessages with correct authority - success",
 			&types.MsgSendMessages{
 				Authority:    testAuthority.String(),
+				ConnectionId: testConnectionId,
+				Messages:     []*codectypes.Any{testValidMsg},
+			},
+			true,
+		},
+		{
+			"MsgSendMessages with incorrect authority - success",
+			&types.MsgSendMessages{
+				Authority:    testSender.String(),
 				ConnectionId: testConnectionId,
 				Messages:     []*codectypes.Any{testValidMsg},
 			},
@@ -138,7 +147,7 @@ func TestGetSigners(t *testing.T) {
 			testSender,
 		},
 		{
-			"MsgSendFunds",
+			"MsgSendFunds with correct authorithy",
 			&types.MsgSendFunds{
 				Authority: testAuthority.String(),
 				ChannelId: testChannelId,
@@ -147,13 +156,31 @@ func TestGetSigners(t *testing.T) {
 			testAuthority,
 		},
 		{
-			"MsgSendMessages",
+			"MsgSendFunds with incorrect authority",
+			&types.MsgSendFunds{
+				Authority: testSender.String(),
+				ChannelId: testChannelId,
+				Amount:    sdk.NewCoins(),
+			},
+			testSender,
+		},
+		{
+			"MsgSendMessages with correct authorithy",
 			&types.MsgSendMessages{
 				Authority:    testAuthority.String(),
 				ConnectionId: testConnectionId,
 				Messages:     []*codectypes.Any{},
 			},
 			testAuthority,
+		},
+		{
+			"MsgSendMessages with incorrect authority",
+			&types.MsgSendMessages{
+				Authority:    testSender.String(),
+				ConnectionId: testConnectionId,
+				Messages:     []*codectypes.Any{},
+			},
+			testSender,
 		},
 	}
 

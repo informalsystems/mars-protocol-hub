@@ -11,7 +11,7 @@ import (
 
 	marsapptesting "github.com/mars-protocol/hub/app/testing"
 
-	"github.com/mars-protocol/hub/x/incentives/types"
+	envoytypes "github.com/mars-protocol/hub/x/envoy/types"
 )
 
 // TestCreatesModuleAccountAtGenesis asserts that the module account is properly
@@ -20,6 +20,6 @@ func TestCreatesModuleAccountAtGenesis(t *testing.T) {
 	app := marsapptesting.MakeSimpleMockApp()
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	acc := app.AccountKeeper.GetAccount(ctx, authtypes.NewModuleAddress(types.ModuleName))
+	acc := app.AccountKeeper.GetAccount(ctx, authtypes.NewModuleAddress(envoytypes.ModuleName))
 	require.NotNil(t, acc)
 }
